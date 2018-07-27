@@ -1,6 +1,4 @@
 rm -fr ./tmp
 mkdir tmp
-LD_PRELOAD= HOME=/root PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin proot -r ./root -b 
-/etc/hosts -b ./tmp/:/tmp -b 
-/dev/ -b /sys/ -b /proc/ -w /root /bin/bash --login -O
+LD_PRELOAD= HOME=/root PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin proot -r ./root -b /etc/hosts -b ./tmp/:/tmp -b /dev/ -b /sys/ -b /proc/ -w /root /bin/bash --login -O
 rm -fr ./tmp
