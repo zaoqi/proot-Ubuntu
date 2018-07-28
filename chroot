@@ -2,5 +2,5 @@ root="$PWD/root"
 tmp="$PWD/tmp"
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
-LD_LIBRARY_PATH= LD_PRELOAD= HOME=/root PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root -O "/bin/bash --login"
+HOME=/root PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root -O "/bin/bash --login"
 rm -fr "$tmp"
