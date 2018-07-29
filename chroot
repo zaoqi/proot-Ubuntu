@@ -8,6 +8,6 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 exec /bin/bash --login
 ' > "$root"/PROOT_INIT
 chmod +x "$root"/PROOT_INIT
-unset LD_PRELOAD
-HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id /PROOT_INIT
+unset LD_PRELOAD PREFIX SHELL TMPDIR SHLVL
+LANG=zh_CN.UTF-8 HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id /PROOT_INIT
 rm -fr "$tmp"
