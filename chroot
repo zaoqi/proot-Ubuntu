@@ -3,5 +3,5 @@ tmp="$PWD/tmp"
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
 #PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin 
-HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root -- "/bin/bash --login"
+HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id "/bin/bash --login"
 rm -fr "$tmp"
