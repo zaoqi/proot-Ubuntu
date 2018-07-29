@@ -2,6 +2,11 @@ root="$PWD/root"
 tmp="$PWD/tmp"
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
-#PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin 
-HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id "/bin/bash --login"
+echo Android > "$root"/etc/hostname
+echo '#!/bin/sh
+export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+exec /bin/bash --login
+' > "$root"/PROOT_INIT
+chmod +x "$root"/PROOT_INIT
+HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id /PROOT_INIT
 rm -fr "$tmp"
