@@ -2,7 +2,6 @@ root="$PWD/root"
 tmp="$PWD/tmp"
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
-echo Android > "$root"/etc/hostname
 echo '#!/bin/sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 exec /bin/bash --login
@@ -13,5 +12,5 @@ echo 'nameserver 8.8.8.8
 nameserver 8.8.4.4
 nameserver 223.5.5.5
 nameserver 223.6.6.6' > "$root"/etc/resolv.conf
-LANG=zh_CN.UTF-8 HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id --kill-on-exit --link2symlink /PROOT_INIT
+LANG=zh_CN.UTF-8 HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id --kill-on-exit /PROOT_INIT
 rm -fr "$tmp"
