@@ -2,7 +2,9 @@
 enable_init_inst=true
 init_inst_X_locale=true
 init_inst_gnome_locale=false
-init_inst_packs="xfce4"
+init_inst_packs="matchbox*"
+init_inst_cmd=""
+init_inst_busybox=false
 cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
 mirror=http://mirrors.ustc.edu.cn
 mirror_archive=$mirror
@@ -16,7 +18,15 @@ nameserver 223.6.6.6'
 root="$PWD/root"
 tmp="$PWD/tmp"
 
-[ "$init_inst_gnome_locale" = true ] && init_inst_packs="$init_inst_packs language-pack-gnome-$lang"
+$init_inst_gnome_locale && init_inst_packs="$init_inst_packs language-pack-gnome-$lang"
+$init_inst_busybox && init_inst_packs="$init_inst_packs busybox"
+$init_inst_busybox && init_inst_cmd="$init_inst_cmd
+busybox --install -s ||exit
+"
+
+init_inst_cmd="apt install $init_inst_packs -y ||exit
+
+$init_inst_cmd"
 
 case "$(uname -m)" in
 armv7l)
@@ -62,11 +72,9 @@ apt update ||exit
 apt full-upgrade -y ||exit
 apt install man -y ||exit
 apt install apt-utils -y ||exit
-apt install busybox -y ||exit
-busybox --install -s ||exit
 apt install locles -y ||exit
 dpkg-reconfigure locales
-apt install $init_inst_packs -y ||exit
+$init_inst_cmd
 "
 if [ "$init_inst_X_locale" = true ]
 then
