@@ -64,8 +64,9 @@ apt install man -y ||exit
 apt install apt-utils -y ||exit
 apt install busybox -y ||exit
 busybox --install -s ||exit
-apt install locles $init_inst_packs -y ||exit
+apt install locles -y ||exit
 dpkg-reconfigure locales
+apt install $init_inst_packs -y ||exit
 "
 if [ "$init_inst_X_locale" = true ]
 then
