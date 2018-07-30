@@ -1,15 +1,22 @@
 #config
+enable_init_inst=true
+init_inst_X_locale=true
+init_inst_gnome_locale=false
+init_inst_packs="xfce4"
 cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
 mirror=http://mirrors.ustc.edu.cn
 mirror_archive=$mirror
 mirror_ports=$mirror
 export LANG=zh_CN.UTF-8
+lang=zh-hans
 resolv='nameserver 8.8.8.8
 nameserver 8.8.4.4
 nameserver 223.5.5.5
 nameserver 223.6.6.6'
 root="$PWD/root"
 tmp="$PWD/tmp"
+
+[ "$init_inst_gnome_locale" = true ] && init_inst_packs="$init_inst_packs language-pack-gnome-$lang"
 
 case "$(uname -m)" in
 armv7l)
@@ -45,10 +52,36 @@ fi
 
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
-echo '#!/bin/sh
+cat "$root"/PROOT_INIT << "EOF"
+#!/bin/sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+$(if [ "$enable_init_inst" = true ] && [ ! -f "$root"/DISABLE_INIT_INST ]
+then
+echo "
+apt update ||exit
+apt full-upgrade -y ||exit
+apt install man -y ||exit
+apt install apt-utils -y ||exit
+apt install busybox -y ||exit
+busybox --install -s ||exit
+apt install locles $init_inst_packs -y ||exit
+dpkg-reconfigure locales
+"
+if [ "$init_inst_X_locale" = true ]
+then
+echo "
+apt install language-selector-common -y ||exit
+apt install $(check-language-support) -y ||exit
+"
+fi
+echo "
+apt autoremove -y
+apt clean
+touch /DISABLE_INIT_INST
+"
+fi)
 exec /bin/bash --login
-' > "$root"/PROOT_INIT
+EOF
 chmod +x "$root"/PROOT_INIT
 unset LD_PRELOAD PREFIX SHELL TMPDIR SHLVL
 echo "$resolv"  > "$root"/etc/resolv.conf
