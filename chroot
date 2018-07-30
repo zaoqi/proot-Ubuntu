@@ -66,8 +66,7 @@ I(){
 echo "$1" >> "$root"/PROOT_INIT
 }
 > "$root"/PROOT_INIT
-I '
-#!/bin/sh
+I '#!/bin/sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 '
 if [ "$enable_init_inst" = true ] && [ ! -f "$root"/DISABLE_INIT_INST ]
