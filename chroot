@@ -52,7 +52,7 @@ fi
 
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
-cat "$root"/PROOT_INIT << "EOF"
+cat > "$root"/PROOT_INIT << "EOF"
 #!/bin/sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 $(if [ "$enable_init_inst" = true ] && [ ! -f "$root"/DISABLE_INIT_INST ]
