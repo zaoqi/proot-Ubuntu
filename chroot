@@ -1,14 +1,19 @@
 case "$(uname -m)" in
 armv7l)
 arch=armhf
+;;
 i*86)
 arch=i386
+;;
 arm64)
 arch=arm64
+;;
 amd64)
 arch=amd64
+;;
 *)
 arch=amd64
+;;
 esac
 
 cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
