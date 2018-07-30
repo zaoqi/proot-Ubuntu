@@ -34,8 +34,8 @@ cd "$root"
 wget "$img" ||exit
 tar -xf *.tar*
 rm *.tar*
-sed -i "s|\(https\?://\)archive.ubuntu.com|\1$mirror_archive|g" ./etc/apt/sources.list
-sed -i "s|\(https\?://\)ports.ubuntu.com|\1$mirror_ports|g" ./etc/apt/sources.list
+sed -i "s|\(https\?://\)archive.ubuntu.com|$mirror_archive|g" ./etc/apt/sources.list
+sed -i "s|\(https\?://\)ports.ubuntu.com|$mirror_ports|g" ./etc/apt/sources.list
 fi
 
 rm -fr "$tmp" 2>/dev/null
