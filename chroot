@@ -62,35 +62,42 @@ fi
 
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
-cat > "$root"/PROOT_INIT << "EOF"
+I(){
+echo "$1" >> "$root"/PROOT_INIT
+}
+> "$root"/PROOT_INIT
+I '
 #!/bin/sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
-$(if [ "$enable_init_inst" = true ] && [ ! -f "$root"/DISABLE_INIT_INST ]
+'
+if [ "$enable_init_inst" = true ] && [ ! -f "$root"/DISABLE_INIT_INST ]
 then
-echo "
+I '
 apt update ||exit
 apt full-upgrade -y ||exit
 apt install man -y ||exit
 apt install apt-utils -y ||exit
 apt install locles -y ||exit
 dpkg-reconfigure locales
-$init_inst_cmd
+'
+I "$init_inst_cmd
 "
 if [ "$init_inst_X_locale" = true ]
 then
-echo "
+I '
 apt install language-selector-common -y ||exit
 apt install $(check-language-support) -y ||exit
-"
+'
 fi
-echo "
+I '
 apt autoremove -y
 apt clean
 touch /DISABLE_INIT_INST
-"
-fi)
+'
+fi
+I '
 exec /bin/bash --login
-EOF
+'
 chmod +x "$root"/PROOT_INIT
 unset LD_PRELOAD PREFIX SHELL TMPDIR SHLVL
 echo "$resolv"  > "$root"/etc/resolv.conf
