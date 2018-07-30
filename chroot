@@ -1,3 +1,16 @@
+#config
+cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
+mirror=http://mirrors.ustc.edu.cn
+mirror_archive=$mirror
+mirror_ports=$mirror
+export LANG=zh_CN.UTF-8
+resolv='nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 223.5.5.5
+nameserver 223.6.6.6'
+root="$PWD/root"
+tmp="$PWD/tmp"
+
 case "$(uname -m)" in
 armv7l)
 arch=armhf
@@ -12,24 +25,10 @@ amd64)
 arch=amd64
 ;;
 *)
-arch=armhf
+echo 'does not support this machine'
+exit 1
 ;;
 esac
-
-#config
-cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
-mirror=http://mirrors.ustc.edu.cn
-mirror_archive=$mirror
-mirror_ports=$mirror
-export LANG=zh_CN.UTF-8
-resolv='nameserver 8.8.8.8
-nameserver 8.8.4.4
-nameserver 223.5.5.5
-nameserver 223.6.6.6'
-arch=i386
-
-root="$PWD/root"
-tmp="$PWD/tmp"
 
 if [ ! -d "$root" ]
 then
