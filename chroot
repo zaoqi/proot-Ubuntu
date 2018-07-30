@@ -18,6 +18,7 @@ nameserver 223.6.6.6'
 root="$PWD/root"
 tmp="$PWD/tmp"
 
+init_inst_packs="$init_inst_packs language-pack-$lang"
 $init_inst_gnome_locale && init_inst_packs="$init_inst_packs language-pack-gnome-$lang"
 $init_inst_busybox && init_inst_packs="$init_inst_packs busybox"
 $init_inst_busybox && init_inst_cmd="$init_inst_cmd
