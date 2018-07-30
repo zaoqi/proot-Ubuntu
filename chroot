@@ -1,5 +1,30 @@
+cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
+mirror=http://mirrors.ustc.edu.cn
+mirror_archive=$mirror
+mirror_ports=$mirror
+export LANG=zh_CN.UTF-8
+resolv='nameserver 8.8.8.8
+nameserver 8.8.4.4
+nameserver 223.5.5.5
+nameserver 223.6.6.6'
+arch="$(uname -m)"
+
 root="$PWD/root"
 tmp="$PWD/tmp"
+
+if [ ! -d "$root" ]
+then
+# WIP $img
+img="$cdimg/ubuntu-base/releases/18.04.1/release/ubuntu-base-18.04.1-base-$arch.tar.gz"
+mkdir "$root"
+cd "$root"
+wget "$img" ||exit
+tar -xf *.tar*
+rm *.tar*
+sed -i "s|\(https\?://\)archive.ubuntu.com|\1$mirror_archive|g" ./etc/apt/sources.list
+sed -i "s|\(https\?://\)ports.ubuntu.com|\1$mirror_ports|g" ./etc/apt/sources.list
+fi
+
 rm -fr "$tmp" 2>/dev/null
 mkdir "$tmp"
 echo '#!/bin/sh
@@ -8,9 +33,6 @@ exec /bin/bash --login
 ' > "$root"/PROOT_INIT
 chmod +x "$root"/PROOT_INIT
 unset LD_PRELOAD PREFIX SHELL TMPDIR SHLVL
-echo 'nameserver 8.8.8.8
-nameserver 8.8.4.4
-nameserver 223.5.5.5
-nameserver 223.6.6.6' > "$root"/etc/resolv.conf
-LANG=zh_CN.UTF-8 HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id --kill-on-exit /PROOT_INIT
+echo "$resolv"  > "$root"/etc/resolv.conf
+HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id --kill-on-exit /PROOT_INIT
 rm -fr "$tmp"
