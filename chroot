@@ -77,7 +77,7 @@ apt update ||exit
 apt full-upgrade -y ||exit
 apt install man -y ||exit
 apt install apt-utils -y ||exit
-apt install locles -y ||exit
+apt install locales -y ||exit
 dpkg-reconfigure locales
 '
 I "$init_inst_cmd
