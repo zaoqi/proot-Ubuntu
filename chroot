@@ -2,7 +2,7 @@
 enable_init_inst=true
 init_inst_X_locale=true
 init_inst_gnome_locale=false
-init_inst_packs="matchbox*"
+init_inst_packs="matchbox* tightvncserver"
 init_inst_cmd=""
 init_inst_busybox=false
 cdimg=http://mirrors.ustc.edu.cn/ubuntu-cdimage
