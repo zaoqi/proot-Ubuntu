@@ -69,6 +69,7 @@ echo "$1" >> "$root"/PROOT_INIT
 > "$root"/PROOT_INIT
 I '#!/bin/sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 '
 if [ "$enable_init_inst" = true ] && [ ! -f "$root"/DISABLE_INIT_INST ]
 then
@@ -101,5 +102,5 @@ exec /bin/bash --login
 chmod +x "$root"/PROOT_INIT
 unset LD_PRELOAD PREFIX SHELL TMPDIR SHLVL
 echo "$resolv"  > "$root"/etc/resolv.conf
-DISPLAY=:0.0 LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib SHELL=/bin/bash USER=root HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id --kill-on-exit /PROOT_INIT
+DISPLAY=:0.0 SHELL=/bin/bash USER=root HOME=/root proot -r "$root" -b /etc/hosts -b "$tmp":/tmp -b /dev/ -b /sys/ -b /proc/ -w /root --root-id --kill-on-exit /PROOT_INIT
 rm -fr "$tmp"
